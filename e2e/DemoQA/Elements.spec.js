@@ -102,27 +102,36 @@ test('Elements', async({page})=> {
 
     // })
 
-    await test.step('Web Tables', async () => {
-    await page.locator('a',{hasText: 'Web Tables'}).click({ force: true });
+    // await test.step('Web Tables', async () => {
+    // await page.locator('a',{hasText: 'Web Tables'}).click({ force: true });
 
-    await page.getByRole('button',{name : 'Add'}).click();
-    await page.getByPlaceholder('First Name').fill('Pavithra');
-    await page.getByPlaceholder('Last Name').fill('G');
-    await page.getByPlaceholder('name@example.com').fill('pavithra.g@example.com');
-    await page.getByPlaceholder('Age').fill('25');
-    await page.getByPlaceholder('Salary').fill('50000');
-    await page.getByPlaceholder('Department').fill('IT');
-    await page.getByRole('button',{name : 'Submit'}).click();
-    await page.locator('#searchBox').fill('Pavithra');
-    const table = page.getByRole('table');
-    console.log(await table.innerText());
+    // await page.getByRole('button',{name : 'Add'}).click();
+    // await page.getByPlaceholder('First Name').fill('Pavithra');
+    // await page.getByPlaceholder('Last Name').fill('G');
+    // await page.getByPlaceholder('name@example.com').fill('pavithra.g@example.com');
+    // await page.getByPlaceholder('Age').fill('25');
+    // await page.getByPlaceholder('Salary').fill('50000');
+    // await page.getByPlaceholder('Department').fill('IT');
+    // await page.getByRole('button',{name : 'Submit'}).click();
+    // await page.locator('#searchBox').fill('Pavithra');
+    // const table = page.getByRole('table');
+    // console.log(await table.innerText());
 
-    await page.getByTitle('Edit').click();
-    await page.getByRole('textbox', { name: 'First Name' }).fill('Pavithra Gurumoorthy');
-    await page.getByRole('button',{name : 'Submit'}).click();
-    await page.getByTitle('Delete').click();
-    console.log(await table.innerText());
+    // await page.getByTitle('Edit').click();
+    // await page.getByRole('textbox', { name: 'First Name' }).fill('Pavithra Gurumoorthy');
+    // await page.getByRole('button',{name : 'Submit'}).click();
+    // await page.getByTitle('Delete').click();
+    // console.log(await table.innerText());
+    // })
 
+    await test.step('Buttons', async () => {
+    await page.locator('a',{hasText: 'Buttons'}).click({ force: true });
+    await page.getByRole('button',{name : 'Double Click Me'}).dblclick();
+    await page.getByRole('button',{name : 'Right Click Me'}).click({button: 'right'});
+    await page.getByRole('button',{name : 'Click Me',exact: true}).click();
+    console.log(await page.locator('#doubleClickMessage').innerText());
+    console.log(await page.locator('#rightClickMessage').innerText());
+    console.log(await page.locator('#dynamicClickMessage').innerText());
 
     })
 
