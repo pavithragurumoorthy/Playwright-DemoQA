@@ -1,26 +1,12 @@
 import {test} from '@playwright/test';
+import { openDemoQA } from '../../Utils/demoqa.js';
 import dotenv from 'dotenv';
 
 dotenv.config();
 
 test('Elements', async({page})=> {
-        await page.route('**/*', async route => {
-        const url = route.request().url();
-
-        if (
-            url.includes('googleads') ||
-            url.includes('doubleclick') ||
-            url.includes('googlesyndication') ||
-            url.includes('adservice')
-        ) {
-            await route.abort();
-        } else {
-            await route.continue();
-        }
-    });
-
     await test.step('WebSite', async () => {
-    await page.goto('https://demoqa.com/');
+    await openDemoQA(page);
     // console.log("Website Opened");
 
     await page.getByText('Elements').click();
@@ -55,24 +41,15 @@ test('Elements', async({page})=> {
     // await test.step('Check Box', async () => {
 
     // await page.locator('a',{hasText: 'Check Box'}).click({ force: true });
-
     // await page.getByRole('treeitem', {name: 'Select Home Home'}).locator('.rc-tree-switcher').click();
-
     // await page.getByRole('treeitem', {name: 'Select Desktop Desktop'}).locator('.rc-tree-switcher').click();
-
     // await page.getByRole('treeitem', {name: 'Select Documents Documents'}).locator('.rc-tree-switcher').click();
-
     // await page.getByRole('treeitem', {name: 'Select Downloads Downloads'}).locator('.rc-tree-switcher').click();
-
     // await page.getByRole('treeitem', {name: 'Select WorkSpace WorkSpace'}).locator('.rc-tree-switcher').click();
-
     // await page.getByRole('treeitem', {name: 'Select Office Office'}).locator('.rc-tree-switcher').click();
-
     // const Checkbox = page.getByRole('checkbox');
-
     // let i = 1;
     // for (const box of await Checkbox.all()) {
-        
     //     if (!(await box.isChecked())) {
     //         await box.check();
     //         const result = await page.locator('#result').innerText();
