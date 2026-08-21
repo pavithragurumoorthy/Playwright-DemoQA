@@ -135,26 +135,43 @@ test('Elements', async({page})=> {
     // })
 
 
-    await test.step('Links', async () => {
-    await page.getByRole('link', { name: 'Links', exact: true }).click();
-    await page.getByRole('link',{name : 'Home',exact: true}).click();
-    await page.bringToFront();
-    await page.locator('#dynamicLink').click();
-    await page.bringToFront();
-    await page.getByRole('link',{name : 'Created',exact: true}).click();
-    console.log(await page.locator('#linkResponse').innerText());
-    await page.getByRole('link',{name : 'No Content',exact: true}).click();
-    console.log(await page.locator('#linkResponse').innerText());
-    await page.getByRole('link',{name : 'Moved',exact: true}).click();
-    console.log(await page.locator('#linkResponse').innerText());
-    await page.getByRole('link',{name : 'Bad Request',exact: true}).click();
-    console.log(await page.locator('#linkResponse').innerText());
-    await page.getByRole('link',{name : 'Unauthorized',exact: true}).click();
-    console.log(await page.locator('#linkResponse').innerText());
-    await page.getByRole('link',{name : 'Forbidden',exact: true}).click();
-    console.log(await page.locator('#linkResponse').innerText());
-    await page.getByRole('link',{name : 'Not Found',exact: true}).click();
-    console.log(await page.locator('#linkResponse').innerText());
+    // await test.step('Links', async () => {
+    // await page.getByRole('link', { name: 'Links', exact: true }).click();
+    // await page.getByRole('link',{name : 'Home',exact: true}).click();
+    // await page.bringToFront();
+    // await page.locator('#dynamicLink').click();
+    // await page.bringToFront();
+    // await page.getByRole('link',{name : 'Created',exact: true}).click();
+    // console.log(await page.locator('#linkResponse').innerText());
+    // await page.getByRole('link',{name : 'No Content',exact: true}).click();
+    // console.log(await page.locator('#linkResponse').innerText());
+    // await page.getByRole('link',{name : 'Moved',exact: true}).click();
+    // console.log(await page.locator('#linkResponse').innerText());
+    // await page.getByRole('link',{name : 'Bad Request',exact: true}).click();
+    // console.log(await page.locator('#linkResponse').innerText());
+    // await page.getByRole('link',{name : 'Unauthorized',exact: true}).click();
+    // console.log(await page.locator('#linkResponse').innerText());
+    // await page.getByRole('link',{name : 'Forbidden',exact: true}).click();
+    // console.log(await page.locator('#linkResponse').innerText());
+    // await page.getByRole('link',{name : 'Not Found',exact: true}).click();
+    // console.log(await page.locator('#linkResponse').innerText());
+    // })
 
+    await test.step('Broken Links - Images', async () => {
+    await page.getByRole('link', { name: 'Broken Links - Images', exact: true }).click();
+    const ValidImage = await page.locator('//p[text()="Valid image"]/following-sibling::*[self::img][1]').getAttribute('src');
+    const BrokenImage = await page.locator('//p[text()="Broken image"]/following-sibling::*[self::img][1]').getAttribute('src');
+    console.log("Valid Image URL: " + ValidImage);
+    console.log("Broken Image URL: " + BrokenImage);
+    const CurrentUrl = page.url();
+    console.log(CurrentUrl);
+    await page.getByRole('link',{name : 'Click Here for Valid Link',exact: true}).click();
+    const ValidLinkUrl = page.url();
+    console.log("Valid Link URL: " + ValidLinkUrl);
+    page.goBack();
+    await page.getByRole('link',{name : 'Click Here for Broken Link',exact: true}).click();
+    const BrokenLinkUrl = page.url();
+    console.log("Broken Link URL: " + BrokenLinkUrl);
+    page.goBack();
     })
 })
