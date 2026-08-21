@@ -1,4 +1,7 @@
 import {test} from '@playwright/test';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 test('Elements', async({page})=> {
         await page.route('**/*', async route => {
@@ -157,21 +160,59 @@ test('Elements', async({page})=> {
     // console.log(await page.locator('#linkResponse').innerText());
     // })
 
-    await test.step('Broken Links - Images', async () => {
-    await page.getByRole('link', { name: 'Broken Links - Images', exact: true }).click();
-    const ValidImage = await page.locator('//p[text()="Valid image"]/following-sibling::*[self::img][1]').getAttribute('src');
-    const BrokenImage = await page.locator('//p[text()="Broken image"]/following-sibling::*[self::img][1]').getAttribute('src');
-    console.log("Valid Image URL: " + ValidImage);
-    console.log("Broken Image URL: " + BrokenImage);
-    const CurrentUrl = page.url();
-    console.log(CurrentUrl);
-    await page.getByRole('link',{name : 'Click Here for Valid Link',exact: true}).click();
-    const ValidLinkUrl = page.url();
-    console.log("Valid Link URL: " + ValidLinkUrl);
-    page.goBack();
-    await page.getByRole('link',{name : 'Click Here for Broken Link',exact: true}).click();
-    const BrokenLinkUrl = page.url();
-    console.log("Broken Link URL: " + BrokenLinkUrl);
-    page.goBack();
+    // await test.step('Broken Links - Images', async () => {
+    // await page.getByRole('link', { name: 'Broken Links - Images', exact: true }).click();
+    // const ValidImage = await page.locator('//p[text()="Valid image"]/following-sibling::*[self::img][1]').getAttribute('src');
+    // const BrokenImage = await page.locator('//p[text()="Broken image"]/following-sibling::*[self::img][1]').getAttribute('src');
+    // console.log("Valid Image URL: " + ValidImage);
+    // console.log("Broken Image URL: " + BrokenImage);
+    // const CurrentUrl = page.url();
+    // console.log(CurrentUrl);
+    // await page.getByRole('link',{name : 'Click Here for Valid Link',exact: true}).click();
+    // const ValidLinkUrl = page.url();
+    // console.log("Valid Link URL: " + ValidLinkUrl);
+    // page.goBack();
+    // await page.getByRole('link',{name : 'Click Here for Broken Link',exact: true}).click();
+    // const BrokenLinkUrl = page.url();
+    // console.log("Broken Link URL: " + BrokenLinkUrl);
+    // page.goBack();
+    // })
+
+    await test.step('Upload and Download', async () => {
+    await page.getByRole('link', { name: 'Upload and Download', exact: true }).click();
+    const downloadPromise = page.waitForEvent('download');
+    await page.locator('#downloadButton').click();
+    // const [download] = await Promise.all([
+    //     page.waitForEvent('download'),
+    //     page.locator('#downloadButton').click()
+    // ]);
+    const download = await downloadPromise;
+
+    const filePath = `downloads/${download.suggestedFilename()}`;
+
+    // const name = "Pavithra";
+    // const message = `hello ${name}`;
+
+    await download.saveAs(filePath);
+
+    console.log('Downloaded:', filePath);
+
+    // Open the downloaded file
+    const { exec } = require('child_process');
+
+    exec(`start "" "${filePath}"`);
+
+    await page.waitForTimeout(3000);
+
+    // Close Windows Photos
+    exec(`taskkill /IM Photos.exe /F`);
+
+    await page.bringToFront();
+
+    await page.setInputFiles('#uploadFile', filePath);
+    console.log('Uploaded:', filePath);
+    await page.pause();
+  
+    
     })
 })
