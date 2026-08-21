@@ -29,16 +29,16 @@ test('Elements', async({page})=> {
     // await page.locator('a',{hasText: 'Text Box'}).click({ force: true });
     // // console.log("TextBox Clicked");
     // // await page.pause();
-    // await page.getByPlaceholder('Full Name').fill('Pavithra');
+    // await page.getByPlaceholder('Full Name').fill(process.env.NAME);
     // // console.log("Full Name filled");
     // // await page.pause();
-    // await page.getByPlaceholder('name@example.com').fill('test@gmail.com');
+    // await page.getByPlaceholder('name@example.com').fill(process.env.MAIL);
     // // console.log("Mail filled");
     // // await page.pause();
-    // await page.getByPlaceholder('Current Address').fill('1/11');
+    // await page.getByPlaceholder('Current Address').fill(process.env.ADDRESS1);
     // // console.log("Current Address filled");
     // // await page.pause();
-    // await page.locator('#permanentAddress').fill('Main road');
+    // await page.locator('#permanentAddress').fill(process.env.ADDRESS2);
     // // console.log("Permanent Address filled");
     // // await page.pause();
     // await page.getByRole('button',{name : 'Submit'}).click();
@@ -106,33 +106,55 @@ test('Elements', async({page})=> {
     // await page.locator('a',{hasText: 'Web Tables'}).click({ force: true });
 
     // await page.getByRole('button',{name : 'Add'}).click();
-    // await page.getByPlaceholder('First Name').fill('Pavithra');
-    // await page.getByPlaceholder('Last Name').fill('G');
-    // await page.getByPlaceholder('name@example.com').fill('pavithra.g@example.com');
-    // await page.getByPlaceholder('Age').fill('25');
-    // await page.getByPlaceholder('Salary').fill('50000');
-    // await page.getByPlaceholder('Department').fill('IT');
+    // await page.getByPlaceholder('First Name').fill(process.env.NAME);
+    // await page.getByPlaceholder('Last Name').fill(process.env.INITIAL);
+    // await page.getByPlaceholder('name@example.com').fill(process.env.MAIL);
+    // await page.getByPlaceholder('Age').fill(process.env.AGE);
+    // await page.getByPlaceholder('Salary').fill(process.env.SALARY);
+    // await page.getByPlaceholder('Department').fill(process.env.DEPARTMENT);
     // await page.getByRole('button',{name : 'Submit'}).click();
-    // await page.locator('#searchBox').fill('Pavithra');
+    // await page.locator('#searchBox').fill(process.env.NAME);
     // const table = page.getByRole('table');
     // console.log(await table.innerText());
 
     // await page.getByTitle('Edit').click();
-    // await page.getByRole('textbox', { name: 'First Name' }).fill('Pavithra Gurumoorthy');
+    // await page.getByRole('textbox', { name: 'First Name' }).fill(process.env.FULLNAME);
     // await page.getByRole('button',{name : 'Submit'}).click();
     // await page.getByTitle('Delete').click();
     // console.log(await table.innerText());
     // })
 
-    await test.step('Buttons', async () => {
-    await page.locator('a',{hasText: 'Buttons'}).click({ force: true });
-    await page.getByRole('button',{name : 'Double Click Me'}).dblclick();
-    await page.getByRole('button',{name : 'Right Click Me'}).click({button: 'right'});
-    await page.getByRole('button',{name : 'Click Me',exact: true}).click();
-    console.log(await page.locator('#doubleClickMessage').innerText());
-    console.log(await page.locator('#rightClickMessage').innerText());
-    console.log(await page.locator('#dynamicClickMessage').innerText());
+    // await test.step('Buttons', async () => {
+    // await page.locator('a',{hasText: 'Buttons'}).click({ force: true });
+    // await page.getByRole('button',{name : 'Double Click Me'}).dblclick();
+    // await page.getByRole('button',{name : 'Right Click Me'}).click({button: 'right'});
+    // await page.getByRole('button',{name : 'Click Me',exact: true}).click();
+    // console.log(await page.locator('#doubleClickMessage').innerText());
+    // console.log(await page.locator('#rightClickMessage').innerText());
+    // console.log(await page.locator('#dynamicClickMessage').innerText());
+    // })
+
+
+    await test.step('Links', async () => {
+    await page.getByRole('link', { name: 'Links', exact: true }).click();
+    await page.getByRole('link',{name : 'Home',exact: true}).click();
+    await page.bringToFront();
+    await page.locator('#dynamicLink').click();
+    await page.bringToFront();
+    await page.getByRole('link',{name : 'Created',exact: true}).click();
+    console.log(await page.locator('#linkResponse').innerText());
+    await page.getByRole('link',{name : 'No Content',exact: true}).click();
+    console.log(await page.locator('#linkResponse').innerText());
+    await page.getByRole('link',{name : 'Moved',exact: true}).click();
+    console.log(await page.locator('#linkResponse').innerText());
+    await page.getByRole('link',{name : 'Bad Request',exact: true}).click();
+    console.log(await page.locator('#linkResponse').innerText());
+    await page.getByRole('link',{name : 'Unauthorized',exact: true}).click();
+    console.log(await page.locator('#linkResponse').innerText());
+    await page.getByRole('link',{name : 'Forbidden',exact: true}).click();
+    console.log(await page.locator('#linkResponse').innerText());
+    await page.getByRole('link',{name : 'Not Found',exact: true}).click();
+    console.log(await page.locator('#linkResponse').innerText());
 
     })
-
 })
